@@ -1,0 +1,35 @@
+version: '3'
+services:
+  api:
+    build: .
+    ports: 
+      - 3000:3000 
+    restart: on-failure
+    volumes:
+      - ./:/app
+    depends_on:
+      - db          
+    networks:
+      - go-network
+
+
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${DB_USER}  
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - '5433:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - go-network
+
+volumes:
+  db:
+
+# Networks to be created to facilitate communication between containers
+networks:
+  go-network:
+    driver: bridge

@@ -15,6 +15,12 @@ func init() {
 func main() {
 	r := gin.Default()
 
+	r.GET("/", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{
+			"message": "live",
+		})
+	})
+
 	r.POST("/posts", controllers.PostCreate)
 	r.GET("/posts", controllers.PostIndex)
 	r.GET("/posts/:postId", controllers.PostShow)
